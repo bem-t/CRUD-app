@@ -1,6 +1,17 @@
 import './App.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {CircularProgress} from '@mui/material'
+import styled from 'styled-components';
+import Users from './components/users';
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  gap: 20px;
+`;
 
 export default function App() {
   const [users, setUser] = useState([]);
@@ -22,17 +33,15 @@ export default function App() {
   },[]);
 
   if(users.length === 0){
-    return <p>Loading...</p>
+    return (
+      <SpinnerWrapper>
+        <CircularProgress>Loading...</CircularProgress>
+       </SpinnerWrapper>
+    )
   }
   return (
     <div className="App">
-      {
-        users.map(({gender, _id}) => {
-          return(
-          <p key={_id}>{gender}</p>
-          )
-        })
-      }
+      <Users users={users}/>
     </div>
   )
 }
